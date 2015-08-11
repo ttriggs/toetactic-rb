@@ -16,4 +16,8 @@ class Board
   def xturn(x, o)
     @turn == "x" ? x : o
   end
+
+  def possible_moves
+    state.map.with_index {|cell, i| i if cell == "-" }.compact
+  end
 end
