@@ -27,6 +27,11 @@ describe Board do
       expect(board.state).to eq(%w(x - - - - - - - -))
       expect(board.turn).to eq("o")
     end
-    
+  end
+  context '#possible_moves' do
+    let(:board) { Board.new.move(0) }
+    it 'returns array of possible moves' do
+      expect(board.move(8).possible_moves).to eq([1,2,3,4,5,6,7])
+    end
   end
 end
