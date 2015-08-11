@@ -20,4 +20,12 @@ class Board
   def possible_moves
     state.map.with_index {|cell, i| i if cell == "-" }.compact
   end
+
+  def win?(player)
+    rows = state.each_slice(DIM).to_a
+    rows.any? {|row| row.all? {|r| r == player } } ||
+      rows.transpose.any? {|col| col.all? {|c| c == player } } ||
+      rows.map.with_index.all? {|row, i| row[i] == player } ||
+      rows.map.with_index.all? {|row, i| row[DIM - 1 - i] == player }
+  end
 end
