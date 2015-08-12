@@ -28,4 +28,20 @@ class Board
       rows.map.with_index.all? {|row, i| row[i] == player } ||
       rows.map.with_index.all? {|row, i| row[DIM - 1 - i] == player }
   end
+
+  def minimax(depth=1)
+    return 100 if win?("x")
+    return -100 if win?("o")
+    return 0 if possible_moves.empty?
+    @@minimax ||= {}
+    value = @@minimax[state]
+    return value if value
+    @@minimax[state] = possible_moves.map { |index|
+      move(index).minimax(depth + 1)
+    }.send(xturn(:max, :min)) + xturn(-depth, depth)
+  end
+
+  def best_move
+    possible_moves.send(xturn(:max_by, :min_by)) {|index| move(index).minimax }
+  end
 end
